@@ -34,7 +34,6 @@ public class MainActivity extends BaseBottomActivity {
 
     @Override
     public void init() {
-        LogUtils.loge(getPackageName());
     }
 
     @Override
