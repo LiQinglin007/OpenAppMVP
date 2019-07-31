@@ -3,7 +3,7 @@ package com.lixiaomi.openapp.bean;
 import java.util.List;
 
 /**
- * @describe：<br>
+ * @describe：首页Banner<br>
  * @author：Xiaomi<br>
  * @createTime：2019/7/30<br>
  * @remarks：<br>

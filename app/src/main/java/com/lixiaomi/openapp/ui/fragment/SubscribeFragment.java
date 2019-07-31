@@ -1,6 +1,10 @@
 package com.lixiaomi.openapp.ui.fragment;
 
 import com.lixiaomi.mvplib.base.BaseView;
+import com.lixiaomi.openapp.bean.WXArticleAuthorlistBean;
+import com.lixiaomi.openapp.bean.WXArticleListBean;
+
+import java.util.ArrayList;
 
 /**
  * @describe：<br>
@@ -11,7 +15,21 @@ import com.lixiaomi.mvplib.base.BaseView;
  */
 public interface SubscribeFragment extends BaseView {
 
-    void showToast(String msg);
+    /**
+     * 公众号列表
+     *
+     * @param authorListData
+     * @param code
+     * @param msg
+     */
+    void setAuthorListData(ArrayList<WXArticleAuthorlistBean.DataBean> authorListData, int code, String msg);
 
-
+    /**
+     * 某个公众号下的文章列表
+     *
+     * @param articleListData
+     * @param code
+     * @param msg
+     */
+    void setArticleListData(int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg);
 }

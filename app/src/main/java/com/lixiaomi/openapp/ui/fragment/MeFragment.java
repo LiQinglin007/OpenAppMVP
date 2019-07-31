@@ -11,7 +11,6 @@ import com.lixiaomi.mvplib.base.BaseView;
  */
 public interface MeFragment extends BaseView {
 
-    void showToast(String msg);
 
 
 }

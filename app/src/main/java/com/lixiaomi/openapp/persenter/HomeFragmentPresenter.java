@@ -7,7 +7,7 @@ package com.lixiaomi.openapp.persenter;
  * @remarks：<br>
  * @changeTime:<br>
  */
-public interface HomeFrPersenter {
+public interface HomeFragmentPresenter {
     /**
      * 获取首页Banner
      */

@@ -21,6 +21,16 @@ public class MyUrl {
      * 首页最新项目
      */
     private static final String ARTICLE_PROJECT_GET = "article/listproject/";
+//    https://wanandroid.com/wxarticle/chapters/json
+    /**
+     * 获取公众号列表
+     */
+    private static final String WX_ARTICLE_GET = "wxarticle/chapters/json";
+    /**
+     * 获取某个公众号下的历史文章
+     * wxarticle/list/408/1/json
+     */
+    private static final String WX_ARTICLE_LIST_GET = "wxarticle/list/";
 
     public static String getBannerGet() {
         return BANNER_GET;
@@ -32,5 +42,13 @@ public class MyUrl {
 
     public static String getArticleProjectGet() {
         return ARTICLE_PROJECT_GET;
+    }
+
+    public static String getWxArticleGet() {
+        return WX_ARTICLE_GET;
+    }
+
+    public static String getWxArticleListGet() {
+        return WX_ARTICLE_LIST_GET;
     }
 }

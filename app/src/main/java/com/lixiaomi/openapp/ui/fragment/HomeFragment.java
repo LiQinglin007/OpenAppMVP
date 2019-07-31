@@ -1,8 +1,10 @@
 package com.lixiaomi.openapp.ui.fragment;
 
 import com.lixiaomi.mvplib.base.BaseView;
+import com.lixiaomi.openapp.bean.ArticleBean;
 import com.lixiaomi.openapp.bean.BannerBean;
 import com.lixiaomi.openapp.bean.BaseBean;
+import com.lixiaomi.openapp.bean.ProjectBean;
 
 import java.util.ArrayList;
 
@@ -14,6 +16,7 @@ import java.util.ArrayList;
  * @changeTime:<br>
  */
 public interface HomeFragment extends BaseView {
+
     /**
      * 设置Banner
      *
@@ -25,17 +28,17 @@ public interface HomeFragment extends BaseView {
 
     /**
      * 设置最新项目列表
-     * @param projectListBean
+     *
+     * @param projectList
      * @param code
      * @param msg
      */
-    void setArticleProject(BaseBean projectListBean, int code, String msg);
+    void setArticleProject(ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg);
 
     /**
-     *
-     * @param articleListBean
+     * @param articleList
      * @param code
      * @param msg
      */
-    void setArticle(BaseBean articleListBean, int code, String msg);
+    void setArticle(ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg);
 }

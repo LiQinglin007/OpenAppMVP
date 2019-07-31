@@ -1,12 +1,25 @@
 package com.lixiaomi.openapp.ui.fragment;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lixiaomi.baselib.ui.dialog.dialoglist.MiDialogList;
 import com.lixiaomi.baselib.utils.T;
 import com.lixiaomi.mvplib.base.BaseFragment;
-import com.lixiaomi.mvplib.base.BasePresenter;
 import com.lixiaomi.openapp.R;
+import com.lixiaomi.openapp.adapter.SubscribeFragmentAdapter;
+import com.lixiaomi.openapp.bean.WXArticleAuthorlistBean;
+import com.lixiaomi.openapp.bean.WXArticleListBean;
+import com.lixiaomi.openapp.persenter.SubscribeFragmentPresenterImpl;
+import com.lixiaomi.openapp.ui.activity.WebViewActivity;
+import com.lixiaomi.openapp.utils.FinalData;
+
+import java.util.ArrayList;
 
 /**
  * @describe：<br>
@@ -15,8 +28,32 @@ import com.lixiaomi.openapp.R;
  * @remarks：<br>
  * @changeTime:<br>
  */
-public class SubscribeFragmentImpl extends BaseFragment implements SubscribeFragment {
+public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, SubscribeFragmentPresenterImpl> implements SubscribeFragment {
 
+    private SwipeRefreshLayout mRefresh;
+    private android.widget.TextView mSubAuthorTv;
+    private android.support.v7.widget.RecyclerView mSubRecy;
+    private SubscribeFragmentAdapter mSubscribeFragmentAdapter;
+
+    /**
+     * 作者列表
+     */
+    private ArrayList<WXArticleAuthorlistBean.DataBean> mAuthorListData = new ArrayList<>();
+    /**
+     * 文章列表
+     */
+    private ArrayList<WXArticleListBean.DataBean.DatasBean> mArticleListData = new ArrayList<>();
+    /**
+     * 当前选的哪个作者
+     */
+    private int mChooseIndex = 0;
+
+    /**
+     * 现在加载到了多少页
+     */
+    private int mPage = 1;
+    private boolean mRefreshIng = false;
+    private boolean mLoadMoreIng = false;
 
     public static SubscribeFragmentImpl getInstance() {
         return SubscribeFragmentImplHolder.mSubscribeFragmentImpl;
@@ -40,11 +77,119 @@ public class SubscribeFragmentImpl extends BaseFragment implements SubscribeFrag
     @Override
     protected void initView(View rootView, Bundle savedInstanceState) {
 
+        mRefresh = rootView.findViewById(R.id.sub_sr);
+        mSubAuthorTv = rootView.findViewById(R.id.sub_author_tv);
+        mSubRecy = rootView.findViewById(R.id.sub_recy);
+        mPersenter.getWXAuthorList();
+
+        mSubRecy.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSubscribeFragmentAdapter = new SubscribeFragmentAdapter(R.layout.item_wx_article, mArticleListData);
+        mSubRecy.setAdapter(mSubscribeFragmentAdapter);
+        mSubscribeFragmentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(getActivity(), WebViewActivity.class)
+                        .putExtra(FinalData.WEB_VIEW_URL, mArticleListData.get(position).getLink()));
+            }
+        });
+
+        mSubAuthorTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MiDialogList<String>(getActivity())
+                        .builder()
+                        .setData(mAuthorListData)
+                        .setTitle("选择公众号")
+                        .setGravity(MiDialogList.MILIST_DIALOG_BOTTOM)
+                        .setReturnType(MiDialogList.MILIST_RETURN_SINGLE)
+                        .setCallBack(new MiDialogList.OnDialogListCallback() {
+                            @Override
+                            public void onListCallback(ArrayList<Integer> dataList) {
+                                mChooseIndex = dataList.get(0);
+                                mPage = 1;
+                                mSubAuthorTv.setText(mAuthorListData.get(mChooseIndex).getName());
+                                mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+                            }
+                        })
+                        .show();
+            }
+        });
+
+
+        mSubscribeFragmentAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                //上拉的时候不能下拉
+                if (!mLoadMoreIng||!mRefreshIng) {
+                    mLoadMoreIng = true;
+                    mPage++;
+                    mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+                    mRefresh.setEnabled(false);
+                }
+            }
+        }, mSubRecy);
+
+        mRefresh.setEnabled(false);
+        //设置加载的颜色
+        mRefresh.setColorSchemeColors(
+                getResources().getColor(R.color.color_51D8BA),
+                getResources().getColor(R.color.default_color));
+        // 设置手指在屏幕下拉多少距离会触发下拉刷新
+        mRefresh.setDistanceToTriggerSync(300);
+        // 设定下拉圆圈的背景
+        mRefresh.setProgressBackgroundColorSchemeColor(Color.WHITE);
+        // 设置圆圈的大小
+        mRefresh.setSize(SwipeRefreshLayout.LARGE);
+        //设置下拉刷新的监听
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (!mLoadMoreIng||!mRefreshIng) {
+                    mPage = 1;
+                    mRefreshIng = true;
+                    mSubscribeFragmentAdapter.setEnableLoadMore(false);
+                    mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+                }
+            }
+        });
+
+    }
+
+
+    @Override
+    public void setAuthorListData(ArrayList<WXArticleAuthorlistBean.DataBean> authorListData, int code, String msg) {
+        mAuthorListData.clear();
+        mAuthorListData.addAll(authorListData);
+        if (mAuthorListData.size() > 0) {
+            mSubAuthorTv.setText(mAuthorListData.get(mChooseIndex).getName());
+            mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+        }
     }
 
     @Override
-    protected BasePresenter createPersenter() {
-        return null;
+    public void setArticleListData(int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg) {
+        if (mPage == 1) {
+            mArticleListData.clear();
+        }
+        mArticleListData.addAll(articleListData);
+        mSubscribeFragmentAdapter.replaceData(mArticleListData);
+        if (mPage >= pageCount) {
+            mSubscribeFragmentAdapter.loadMoreEnd();
+        } else {
+            mSubscribeFragmentAdapter.loadMoreComplete();
+        }
+
+        mRefresh.setEnabled(true);
+        mRefresh.setRefreshing(false);
+        mSubscribeFragmentAdapter.setEnableLoadMore(true);
+        mRefreshIng = false;
+        mLoadMoreIng = false;
+    }
+
+
+    @Override
+    protected SubscribeFragmentPresenterImpl createPersenter() {
+        return new SubscribeFragmentPresenterImpl();
     }
 
     @Override
