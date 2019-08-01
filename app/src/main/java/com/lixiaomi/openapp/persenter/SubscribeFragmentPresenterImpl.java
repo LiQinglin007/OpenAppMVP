@@ -79,10 +79,12 @@ public class SubscribeFragmentPresenterImpl extends BasePresenter<SubscribeFragm
     }
 
     @Override
-    public void getWXArticleList(String authorId, int page) {
+    public void getWXArticleList(boolean showLoading, String authorId, int page) {
         mView = getView();
         if (isViewAttached()) {
-            mView.startLoading();
+            if (showLoading) {
+                mView.startLoading();
+            }
         }
         ((WXArticleModelImpl) getModelList().get(0)).getWXArticleListByAuthorId(authorId, page, new MyPresenterCallBack() {
             @Override
@@ -101,7 +103,7 @@ public class SubscribeFragmentPresenterImpl extends BasePresenter<SubscribeFragm
                         }
                     }
                     s = articleListBean.getErrorMsg();
-                    mView.setArticleListData(articleListBean.getData().getPageCount(),mArticleList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setArticleListData(articleListBean.getData().getPageCount(), mArticleList, HttpData.LOCAL_SUCCESS, s);
                 } catch (Exception e) {
                 }
 

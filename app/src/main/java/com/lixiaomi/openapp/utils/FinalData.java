@@ -8,5 +8,14 @@ package com.lixiaomi.openapp.utils;
  * @changeTime:<br>
  */
 public class FinalData {
-    public final static String WEB_VIEW_URL="WebViewUrl";
+    /**
+     * 去Web页面的地址
+     */
+    public final static String WEB_VIEW_URL = "WebViewUrl";
+    public final static String WEB_VIEW_TITLE = "WebViewTitle";
+    /**
+     * 体系二级分类id
+     */
+    public final static String SYSTEM_TYPE_ID = "SystemTypeId";
+    public final static String SYSTEM_TYPE_TITLE = "SystemTypeTitle";
 }

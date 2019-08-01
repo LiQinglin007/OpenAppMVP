@@ -89,7 +89,9 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(getActivity(), WebViewActivity.class)
-                        .putExtra(FinalData.WEB_VIEW_URL, mArticleListData.get(position).getLink()));
+                        .putExtra(FinalData.WEB_VIEW_URL, mArticleListData.get(position).getLink())
+                        .putExtra(FinalData.WEB_VIEW_TITLE, mArticleListData.get(position).getTitle())
+                );
             }
         });
 
@@ -108,22 +110,21 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
                                 mChooseIndex = dataList.get(0);
                                 mPage = 1;
                                 mSubAuthorTv.setText(mAuthorListData.get(mChooseIndex).getName());
-                                mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+                                getData(true);
                             }
                         })
                         .show();
             }
         });
 
-
         mSubscribeFragmentAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 //上拉的时候不能下拉
-                if (!mLoadMoreIng||!mRefreshIng) {
+                if (!mLoadMoreIng || !mRefreshIng) {
                     mLoadMoreIng = true;
-                    mPage++;
-                    mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+                    ++mPage;
+                    getData(false);
                     mRefresh.setEnabled(false);
                 }
             }
@@ -133,6 +134,8 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
         //设置加载的颜色
         mRefresh.setColorSchemeColors(
                 getResources().getColor(R.color.color_51D8BA),
+                getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.default_color));
         // 设置手指在屏幕下拉多少距离会触发下拉刷新
         mRefresh.setDistanceToTriggerSync(300);
@@ -144,11 +147,11 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!mLoadMoreIng||!mRefreshIng) {
+                if (!mLoadMoreIng || !mRefreshIng) {
                     mPage = 1;
                     mRefreshIng = true;
                     mSubscribeFragmentAdapter.setEnableLoadMore(false);
-                    mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+                    getData(false);
                 }
             }
         });
@@ -156,13 +159,17 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
     }
 
 
+    private void getData(boolean showLoading) {
+        mPersenter.getWXArticleList(showLoading, mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+    }
+
     @Override
     public void setAuthorListData(ArrayList<WXArticleAuthorlistBean.DataBean> authorListData, int code, String msg) {
         mAuthorListData.clear();
         mAuthorListData.addAll(authorListData);
         if (mAuthorListData.size() > 0) {
             mSubAuthorTv.setText(mAuthorListData.get(mChooseIndex).getName());
-            mPersenter.getWXArticleList(mAuthorListData.get(mChooseIndex).getId() + "", mPage);
+            getData(true);
         }
     }
 

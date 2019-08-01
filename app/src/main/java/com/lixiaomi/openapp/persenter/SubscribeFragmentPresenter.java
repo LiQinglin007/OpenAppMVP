@@ -19,5 +19,5 @@ public interface SubscribeFragmentPresenter {
      * @param authorId 公众号id
      * @param page     页码
      */
-    void getWXArticleList(String authorId, int page);
+    void getWXArticleList(boolean showLoading, String authorId, int page);
 }

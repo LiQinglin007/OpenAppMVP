@@ -7,7 +7,13 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.lixiaomi.baselib.utils.loadImageUtils.MiLoadImageUtil;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.bean.BannerBean;
-
+/**
+ * @describe：Banner<br>
+ * @author：Xiaomi<br>
+ * @createTime：2019/7/30<br>
+ * @remarks：<br>
+ * @changeTime:<br>
+ */
 public class BannerHolderView extends Holder<BannerBean.DataBean> {
     private ImageView imageView;
 

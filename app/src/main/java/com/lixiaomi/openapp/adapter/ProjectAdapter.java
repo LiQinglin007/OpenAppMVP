@@ -1,13 +1,11 @@
 package com.lixiaomi.openapp.adapter;
 
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lixiaomi.baselib.utils.loadImageUtils.MiLoadImageUtil;
 import com.lixiaomi.openapp.R;
-import com.lixiaomi.openapp.bean.ArticleBean;
 import com.lixiaomi.openapp.bean.ProjectBean;
 
 /**

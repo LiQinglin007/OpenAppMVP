@@ -1,9 +1,13 @@
 package com.lixiaomi.openapp.ui.activity;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.view.View;
 
-import com.just.agentweb.AgentWeb;
+
+import com.lixiaomi.baselib.utils.LogUtils;
 import com.lixiaomi.mvplib.base.BaseActivity;
 import com.lixiaomi.mvplib.base.BasePresenter;
 import com.lixiaomi.openapp.R;
@@ -18,7 +22,13 @@ import com.lixiaomi.openapp.utils.FinalData;
  */
 public class WebViewActivity extends BaseActivity {
     private String mWebViewUrl;
+    private String mTitle;
     private android.webkit.WebView mWebView;
+
+
+    private LinearLayoutCompat mTopLeftLy;
+    private LinearLayoutCompat mTopRightLy;
+    private AppCompatTextView mTopTitleTv;
 
 
     @Override
@@ -29,10 +39,24 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void initData() {
         mWebViewUrl = getIntent().getStringExtra(FinalData.WEB_VIEW_URL);
+        mTitle = getIntent().getStringExtra(FinalData.WEB_VIEW_TITLE);
+        LogUtils.loge("mWebViewUrl:" + mWebViewUrl);
+        LogUtils.loge("mTitle:" + mTitle);
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mTopLeftLy = findViewById(R.id.top_back_ly);
+        mTopRightLy = findViewById(R.id.top_right_ly);
+        mTopTitleTv = findViewById(R.id.top_title_tv);
+        mTopTitleTv.setText(mTitle);
+        mTopLeftLy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mTopRightLy.setVisibility(View.INVISIBLE);
 
         mWebView = findViewById(R.id.web_view);
 //        AgentWeb.with(this)

@@ -25,6 +25,8 @@ import com.lixiaomi.openapp.bean.BannerBean;
 import com.lixiaomi.openapp.bean.ProjectBean;
 import com.lixiaomi.openapp.http.HttpData;
 import com.lixiaomi.openapp.persenter.HomeFragmentPresenterImpl;
+import com.lixiaomi.openapp.ui.activity.ArticleActivityImpl;
+import com.lixiaomi.openapp.ui.activity.ProjectActivityImpl;
 import com.lixiaomi.openapp.ui.activity.WebViewActivity;
 import com.lixiaomi.openapp.utils.FinalData;
 
@@ -78,12 +80,24 @@ public class HomeFragmentImpl extends BaseFragment<HomeFragment, HomeFragmentPre
         mHomeRecyArticle.setLayoutManager(new LinearLayoutManager(getActivity()));
         mHomeRecyArticle.setAdapter(mArticleAdapter);
         View articleHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.head_home_article, mHomeRecyArticle, false);
+        articleHeadView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ArticleActivityImpl.class));
+            }
+        });
         mArticleAdapter.addHeaderView(articleHeadView);
 
         mProjectAdapter = new ProjectAdapter(R.layout.item_project);
         mHomeRecyProject.setLayoutManager(new LinearLayoutManager(getActivity()));
         mHomeRecyProject.setAdapter(mProjectAdapter);
         View projectHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.head_home_project, mHomeRecyProject, false);
+        projectHeadView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ProjectActivityImpl.class));
+            }
+        });
         mProjectAdapter.addHeaderView(projectHeadView);
 
         //加载图片
@@ -91,12 +105,13 @@ public class HomeFragmentImpl extends BaseFragment<HomeFragment, HomeFragmentPre
         mPersenter.getHomeArticle();
         mPersenter.getHomeArticleProject();
 
-
         mArticleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(getActivity(), WebViewActivity.class)
-                        .putExtra(FinalData.WEB_VIEW_URL, mArticleDataList.get(position).getLink()));
+                        .putExtra(FinalData.WEB_VIEW_URL, mArticleDataList.get(position).getLink())
+                        .putExtra(FinalData.WEB_VIEW_TITLE, mArticleDataList.get(position).getTitle())
+                );
             }
         });
 
@@ -104,7 +119,9 @@ public class HomeFragmentImpl extends BaseFragment<HomeFragment, HomeFragmentPre
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(getActivity(), WebViewActivity.class)
-                        .putExtra(FinalData.WEB_VIEW_URL, mProjectDataList.get(position).getLink()));
+                        .putExtra(FinalData.WEB_VIEW_URL, mProjectDataList.get(position).getLink())
+                        .putExtra(FinalData.WEB_VIEW_TITLE, mProjectDataList.get(position).getTitle())
+                );
             }
         });
 
@@ -133,7 +150,9 @@ public class HomeFragmentImpl extends BaseFragment<HomeFragment, HomeFragmentPre
                         @Override
                         public void onItemClick(int position) {
                             startActivity(new Intent(getActivity(), WebViewActivity.class)
-                                    .putExtra(FinalData.WEB_VIEW_URL, mDataList.get(position).getUrl()));
+                                    .putExtra(FinalData.WEB_VIEW_URL, mDataList.get(position).getUrl())
+                                    .putExtra(FinalData.WEB_VIEW_TITLE, mDataList.get(position).getTitle())
+                            );
                         }
                     })
                     .setPageIndicator(new int[]{R.drawable.dot_focus, R.drawable.dot_normal})

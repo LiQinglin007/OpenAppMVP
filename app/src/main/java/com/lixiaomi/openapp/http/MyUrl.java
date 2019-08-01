@@ -1,5 +1,7 @@
 package com.lixiaomi.openapp.http;
 
+import retrofit2.http.GET;
+
 /**
  * @describe：<br>
  * @author：Xiaomi<br>
@@ -31,6 +33,16 @@ public class MyUrl {
      * wxarticle/list/408/1/json
      */
     private static final String WX_ARTICLE_LIST_GET = "wxarticle/list/";
+    /**
+     * 体系类型
+     */
+    private static final String TREE_GET = "tree/json";
+    /**
+     * 体系下的文章列表
+     * 这里的cid是二级分类的id
+     * 0/json?cid=60
+     */
+    private static final String TREE_LIST_GET = "article/list/";
 
     public static String getBannerGet() {
         return BANNER_GET;
@@ -50,5 +62,13 @@ public class MyUrl {
 
     public static String getWxArticleListGet() {
         return WX_ARTICLE_LIST_GET;
+    }
+
+    public static String getTreeGet() {
+        return TREE_GET;
+    }
+
+    public static String getTreeListGet() {
+        return TREE_LIST_GET;
     }
 }

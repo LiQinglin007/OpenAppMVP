@@ -6,7 +6,7 @@ import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.bean.ArticleBean;
 
 /**
- * @describe：<br>
+ * @describe：文章列表<br>
  * @author：Xiaomi<br>
  * @createTime：2019/7/31<br>
  * @remarks：<br>

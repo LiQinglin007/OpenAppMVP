@@ -1,6 +1,9 @@
 package com.lixiaomi.openapp.ui.fragment;
 
 import com.lixiaomi.mvplib.base.BaseView;
+import com.lixiaomi.openapp.bean.MyTreeBean;
+
+import java.util.ArrayList;
 
 /**
  * @describe：<br>
@@ -11,7 +14,6 @@ import com.lixiaomi.mvplib.base.BaseView;
  */
 public interface SystemFragment extends BaseView {
 
-
-
+    void setTreeData(ArrayList<MyTreeBean> treeList, int code, String msg);
 
 }

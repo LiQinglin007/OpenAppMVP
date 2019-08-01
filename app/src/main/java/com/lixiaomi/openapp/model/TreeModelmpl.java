@@ -1,30 +1,29 @@
 package com.lixiaomi.openapp.model;
 
-
 import com.lixiaomi.baselib.config.AppConfigInIt;
 import com.lixiaomi.baselib.net.okhttp.MiOkHttpCallBack;
 import com.lixiaomi.baselib.net.okhttp.MiSendRequestOkHttp;
-import com.lixiaomi.baselib.utils.LogUtils;
 import com.lixiaomi.mvplib.base.MyPresenterCallBack;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.http.HttpData;
 import com.lixiaomi.openapp.http.MyUrl;
 
+import java.util.WeakHashMap;
+
 /**
  * @describe：<br>
  * @author：Xiaomi<br>
- * @createTime：2019/7/30<br>
+ * @createTime：2019/8/1<br>
  * @remarks：<br>
  * @changeTime:<br>
  */
-public class ArticleModelImpl implements ArticleModel {
+public class TreeModelmpl implements TreeModel {
 
     @Override
-    public void getArtcleList(int page, final MyPresenterCallBack myPresenterCallBack) {
-        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleGet() + page + "/json", 120, new MiOkHttpCallBack() {
+    public void getTreeTypeList(final MyPresenterCallBack myPresenterCallBack) {
+        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getTreeGet(), 120, new MiOkHttpCallBack() {
             @Override
             public void onSuccess(int code, String response) {
-                LogUtils.loge("code:" + code + "  response:" + response);
                 if (code != HttpData.HTTP_SUCCESS_CODE) {
                     myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
                     return;
@@ -44,11 +43,12 @@ public class ArticleModelImpl implements ArticleModel {
     }
 
     @Override
-    public void getArtcleProjectList(int page, final MyPresenterCallBack myPresenterCallBack) {
-        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleProjectGet() + page + "/json", 120, new MiOkHttpCallBack() {
+    public void getTreeList(int page, String cId, final MyPresenterCallBack myPresenterCallBack) {
+        WeakHashMap<String, Object> para = new WeakHashMap<>(1);
+        para.put("cid", cId);
+        MiSendRequestOkHttp.sendGet(null, para, MyUrl.getTreeListGet() + page + "/json", 120, new MiOkHttpCallBack() {
             @Override
             public void onSuccess(int code, String response) {
-                LogUtils.loge("code:" + code + "  response:" + response);
                 if (code != HttpData.HTTP_SUCCESS_CODE) {
                     myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
                     return;

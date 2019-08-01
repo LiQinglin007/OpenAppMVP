@@ -34,6 +34,9 @@
 
 
         <activity android:name=".ui.activity.WebViewActivity"></activity>
+        <activity android:name=".ui.activity.SystemListActivityImpl"></activity>
+        <activity android:name=".ui.activity.ProjectActivityImpl"></activity>
+        <activity android:name=".ui.activity.ArticleActivityImpl"></activity>
 
     </application>
 
