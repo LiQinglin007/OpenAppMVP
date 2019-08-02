@@ -40,7 +40,7 @@ public class ProjectActivityPresenterImpl extends BasePresenter<ProjectActivity,
                 mView.startLoading();
             }
         }
-        ((ArticleModelImpl) getModelList().get(0)).getArtcleList(page, new MyPresenterCallBack() {
+        ((ArticleModelImpl) getModelList().get(0)).getArtcleProjectList(page, new MyPresenterCallBack() {
             @Override
             public void success(int code, String response) {
                 if (isViewAttached()) {

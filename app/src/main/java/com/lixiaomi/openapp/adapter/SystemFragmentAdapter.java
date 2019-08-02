@@ -47,7 +47,8 @@ public class SystemFragmentAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
         if (itemViewType == TYPE_LEVEL_0) {
             final MyTreeBean dataBean = (MyTreeBean) item;
             helper.setText(R.id.item_tree_lv0, dataBean.getName());
-            helper.setImageResource(R.id.item_tree_lv0_img, dataBean.isExpanded() ? R.drawable.arrow_b : R.drawable.arrow_r);
+            helper.setImageResource(R.id.item_tree_lv0_img, dataBean.isExpanded() ? R.drawable.arrow_r : R.drawable.arrow_b);
+            helper.setVisible(R.id.item_tree_img, dataBean.isExpanded() ? true : false);
             helper.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,7 +62,7 @@ public class SystemFragmentAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             });
         } else if (itemViewType == TYPE_LEVEL_1) {
             MyTreeBean.ChildrenBean childrenBean = (MyTreeBean.ChildrenBean) item;
-            helper.setText(R.id.item_tree_lv1, childrenBean.getName());
+            helper.setText(R.id.item_tree_lv1, "· " + childrenBean.getName());
         }
     }
 }

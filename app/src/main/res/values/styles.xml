@@ -9,4 +9,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+    <style name="fragment_mine_tv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/px_80</item>
+        <item name="android:background">@color/color_white</item>
+        <item name="android:textColor">@color/color_333</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/px_24</item>
+        <item name="android:paddingRight">@dimen/px_24</item>
+    </style>
+
 </resources>

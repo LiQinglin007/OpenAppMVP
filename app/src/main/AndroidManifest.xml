@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lixiaomi.openapp">
 
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -37,6 +40,7 @@
         <activity android:name=".ui.activity.SystemListActivityImpl"></activity>
         <activity android:name=".ui.activity.ProjectActivityImpl"></activity>
         <activity android:name=".ui.activity.ArticleActivityImpl"></activity>
+        <activity android:name=".ui.activity.UtilsActivity"></activity>
 
     </application>
 
