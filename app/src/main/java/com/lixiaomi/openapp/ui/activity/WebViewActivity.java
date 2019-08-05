@@ -5,6 +5,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
+import android.view.WindowManager;
 
 
 import com.lixiaomi.baselib.utils.LogUtils;
@@ -12,6 +13,10 @@ import com.lixiaomi.mvplib.base.BaseActivity;
 import com.lixiaomi.mvplib.base.BasePresenter;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.utils.FinalData;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
+
+import java.util.ArrayList;
 
 /**
  * @describe：banner点击过来这里，文章详情点击过来这里，来这里展示所有的<br>
@@ -23,7 +28,7 @@ import com.lixiaomi.openapp.utils.FinalData;
 public class WebViewActivity extends BaseActivity {
     private String mWebViewUrl;
     private String mTitle;
-    private android.webkit.WebView mWebView;
+    private com.lixiaomi.openapp.view.ProgressWebview mWebView;
 
 
     private LinearLayoutCompat mTopLeftLy;
@@ -53,24 +58,27 @@ public class WebViewActivity extends BaseActivity {
         mTopLeftLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    finish();
+                }
             }
         });
         mTopRightLy.setVisibility(View.INVISIBLE);
 
         mWebView = findViewById(R.id.web_view);
-//        AgentWeb.with(this)
-//                //传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams
-//                .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
-//                // 使用默认进度条
-//                .useDefaultIndicator()
-//                // 使用默认进度条颜色
-//                .defaultProgressBarColor()
-//                //设置 Web 页面的 title 回调
-//                .setReceivedTitleCallback()
-//                .createAgentWeb()
-//                .ready()
-//                .go(mWebViewUrl);
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, String s) {
+                webView.loadUrl(s);
+                return true;
+            }
+        });
+        //设置WebView属性,运行执行js脚本
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        //调用loadUrl方法为WebView加入链接
+        mWebView.loadUrl(mWebViewUrl);
     }
 
     @Override
@@ -81,5 +89,15 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected int setStatusBarColor() {
         return R.color.default_color;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            WebViewActivity.this.finish();
+        }
     }
 }

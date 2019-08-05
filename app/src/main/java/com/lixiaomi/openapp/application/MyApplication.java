@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.lixiaomi.baselib.config.AppConfigInIt;
+import com.tencent.smtt.sdk.QbSdk;
 
 /**
  * 作者：dell or Xiaomi Li
@@ -28,10 +29,11 @@ public class MyApplication extends Application {
                 .withBaseFile("com.lixiaomi.openappmvp")
                 //baseUrl
                 .withBaseUrl("https://www.wanandroid.com/")
-                .withHttpCertificateFlag(true,null)
+                .withHttpCertificateFlag(true, null)
                 //连接失败后是否重连
                 .withHttpRetryConnection(true)
                 .configure();
+        QbSdk.initX5Environment(this, null);
 
     }
 }

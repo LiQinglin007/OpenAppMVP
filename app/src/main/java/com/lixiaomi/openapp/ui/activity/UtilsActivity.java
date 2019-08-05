@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.lixiaomi.baselib.eventmessage.MiEventMessage;
 import com.lixiaomi.baselib.net.DownloadListener;
 import com.lixiaomi.baselib.net.okhttp.DownloadUtil;
 import com.lixiaomi.baselib.ui.chooseDateUtils.MiDayTime;
@@ -28,6 +29,8 @@ import com.lixiaomi.mvplib.base.BasePresenter;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.bean.NoticeBean;
 import com.lixiaomi.openapp.bean.UserBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +60,7 @@ public class UtilsActivity extends BaseActivity implements View.OnClickListener 
     private LinearLayoutCompat mTopRightLy;
     private AppCompatTextView mTopTitleTv;
     ArrayList<MiListInterface> mBeanArrayList = new ArrayList<>();
-    String[] permissions = {Manifest.permission.WRITE_SECURE_SETTINGS};
+    String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
     @Override
@@ -269,19 +272,17 @@ public class UtilsActivity extends BaseActivity implements View.OnClickListener 
                         .show();
                 break;
             case R.id.mine_download:
-                downLoad();
-//                PermissionsUtil.getPermission(UtilsActivity.this, permissions, "下载需要读写SD卡权限", new PermissionsUtil.PermissionCallBack() {
-//                    @Override
-//                    public void onSuccess() {
-//                        downLoad();
-//                    }
-//
-//                    @Override
-//                    public void onFail() {
-//
-//                    }
-//                });
+                PermissionsUtil.getPermission(UtilsActivity.this, permissions, "下载需要读写SD卡权限", new PermissionsUtil.PermissionCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        downLoad();
+                    }
 
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
                 break;
             default:
                 break;
@@ -289,7 +290,7 @@ public class UtilsActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void downLoad() {
-        new DownloadUtil("https://qd.myapp.com/myapp/qqteam/AndroidQQ/mobileqq_android.apk", "Q", new DownloadListener() {
+        new DownloadUtil("https://qd.myapp.com/myapp/qqteam/AndroidQQ/mobileqq_android.apk", "QQ.apk", new DownloadListener() {
             @Override
             public void downStart() {
                 mMineDownload.setText("下载---》正在下载");
@@ -298,7 +299,7 @@ public class UtilsActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void downProgress(int progress, long speed) {
-                mMineDownload.setText("下载---》" + "进度下载：" + progress + "speed:" + speed);
+                mMineDownload.setText("下载---》" + "进度下载：" + progress + "%speed:" + speed);
                 LogUtils.loge("进度下载：" + progress + "speed:" + speed);
             }
 

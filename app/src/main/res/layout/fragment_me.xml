@@ -34,6 +34,22 @@
         android:layout_marginTop="@dimen/px_10"
         android:text="常用工具类" />
 
-    <include layout="@layout/include_line"></include>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/mine_switch_fragment"
+        style="@style/fragment_mine_tv"
+        android:layout_marginTop="@dimen/px_2"
+        android:text="切换fragment" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/mine_blog"
+        style="@style/fragment_mine_tv"
+        android:layout_marginTop="@dimen/px_2"
+        android:text="我的博客" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/mine_book"
+        style="@style/fragment_mine_tv"
+        android:layout_marginTop="@dimen/px_2"
+        android:text="我的简书" />
 
 </LinearLayout>

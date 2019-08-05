@@ -118,8 +118,15 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mine_download"
             style="@style/fragment_mine_tv"
-            android:text="下载文件"
-            android:visibility="gone" />
+            android:text="下载文件" />
+
+        <include layout="@layout/include_line"></include>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/mine_switch_fragment"
+            style="@style/fragment_mine_tv"
+            android:text="切换fragment" />
+
     </LinearLayout>
 
 
