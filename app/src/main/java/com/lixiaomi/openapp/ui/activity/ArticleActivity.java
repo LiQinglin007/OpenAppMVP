@@ -19,5 +19,5 @@ public interface ArticleActivity extends BaseView {
      * @param code
      * @param msg
      */
-    void setArticle(int pageCount, ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg);
+    void setArticle(int curPage,int pageCount, ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg);
 }

@@ -7,7 +7,6 @@ import com.lixiaomi.mvplib.base.BaseModel;
 import com.lixiaomi.mvplib.base.BasePresenter;
 import com.lixiaomi.mvplib.base.MyPresenterCallBack;
 import com.lixiaomi.openapp.R;
-import com.lixiaomi.openapp.bean.BannerBean;
 import com.lixiaomi.openapp.bean.WXArticleAuthorlistBean;
 import com.lixiaomi.openapp.bean.WXArticleListBean;
 import com.lixiaomi.openapp.http.HttpData;
@@ -103,7 +102,7 @@ public class SubscribeFragmentPresenterImpl extends BasePresenter<SubscribeFragm
                         }
                     }
                     s = articleListBean.getErrorMsg();
-                    mView.setArticleListData(articleListBean.getData().getPageCount(), mArticleList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setArticleListData(articleListBean.getData().getCurPage(),articleListBean.getData().getPageCount(), mArticleList, HttpData.LOCAL_SUCCESS, s);
                 } catch (Exception e) {
                 }
 

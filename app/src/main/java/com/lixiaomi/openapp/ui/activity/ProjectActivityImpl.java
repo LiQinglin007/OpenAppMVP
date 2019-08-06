@@ -36,7 +36,7 @@ public class ProjectActivityImpl extends BaseActivity<ProjectActivity, ProjectAc
 
     private ProjectAdapter mAdapter;
     private ArrayList<ProjectBean.DataBean.DatasBean> mDataList = new ArrayList();
-    private int mPage = 1;
+    private int mPage = 0;
     private boolean mLoadMoreIng = false;
     private boolean mRefreshIng = false;
     private android.support.v4.widget.SwipeRefreshLayout mProjectRefresh;
@@ -90,7 +90,7 @@ public class ProjectActivityImpl extends BaseActivity<ProjectActivity, ProjectAc
             public void onRefresh() {
                 if (!mLoadMoreIng && !mRefreshIng) {
                     mRefreshIng = true;
-                    mPage = 1;
+                    mPage = 0;
                     //下拉刷新的时候不让上拉加载
                     mAdapter.setEnableLoadMore(false);
                     getData(false);
@@ -129,8 +129,8 @@ public class ProjectActivityImpl extends BaseActivity<ProjectActivity, ProjectAc
     }
 
     @Override
-    public void setArticleProject(int pageCount, ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg) {
-        if (mPage == 1) {
+    public void setArticleProject(int curPage, int pageCount, ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg) {
+        if (mPage == 0) {
             mDataList.clear();
         }
         mDataList.addAll(projectList);
@@ -173,4 +173,6 @@ public class ProjectActivityImpl extends BaseActivity<ProjectActivity, ProjectAc
     public void showToast(String msg) {
         T.shortToast(this, msg);
     }
+
+
 }

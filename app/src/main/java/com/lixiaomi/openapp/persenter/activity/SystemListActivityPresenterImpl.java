@@ -59,9 +59,9 @@ public class SystemListActivityPresenterImpl extends BasePresenter<SystemListAct
                         }
                     }
                     s = treeBean.getErrorMsg();
-                    mView.setSystemArticleList(treeBean.getData().getPageCount(), mTreeArticleList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setSystemArticleList(treeBean.getData().getCurPage(),treeBean.getData().getPageCount(), mTreeArticleList, HttpData.LOCAL_SUCCESS, s);
                 } catch (Exception e) {
-                    mView.setSystemArticleList(0, mTreeArticleList, HttpData.LOCAL_DATA_ERROR, "数据异常");
+                    mView.setSystemArticleList(0,0, mTreeArticleList, HttpData.LOCAL_DATA_ERROR, "数据异常");
                 }
             }
 

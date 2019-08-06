@@ -41,7 +41,7 @@ public class SystemListActivityImpl extends BaseActivity<SystemListActivity, Sys
     private SwipeRefreshLayout mRefreshLy;
     private SystemActivityAdapter mAdapter;
     private ArrayList<TreeArticleListBean.DataBean.DatasBean> mDataList = new ArrayList();
-    private int mPage = 1;
+    private int mPage = 0;
     private boolean mLoadMoreIng = false;
     private boolean mRefreshIng = false;
 
@@ -105,7 +105,7 @@ public class SystemListActivityImpl extends BaseActivity<SystemListActivity, Sys
             public void onRefresh() {
                 if (!mLoadMoreIng && !mRefreshIng) {
                     mRefreshIng = true;
-                    mPage = 1;
+                    mPage = 0;
                     //下拉刷新的时候不让上拉加载
                     mAdapter.setEnableLoadMore(false);
                     getData(false);
@@ -137,8 +137,8 @@ public class SystemListActivityImpl extends BaseActivity<SystemListActivity, Sys
     }
 
     @Override
-    public void setSystemArticleList(int page, ArrayList<TreeArticleListBean.DataBean.DatasBean> list, int code, String msg) {
-        if (mPage == 1) {
+    public void setSystemArticleList(int curPage,int page, ArrayList<TreeArticleListBean.DataBean.DatasBean> list, int code, String msg) {
+        if (mPage == 0) {
             mDataList.clear();
         }
         mDataList.addAll(list);
@@ -148,7 +148,7 @@ public class SystemListActivityImpl extends BaseActivity<SystemListActivity, Sys
         mAdapter.setEnableLoadMore(true);
         mLoadMoreIng = false;
         mRefreshIng = false;
-        if (mPage >= page) {
+        if (curPage >= page) {
             mAdapter.loadMoreEnd();
         } else {
             mAdapter.loadMoreComplete();

@@ -40,7 +40,7 @@ public class ArticleActivityImpl extends BaseActivity<ArticleActivity, ArticleAc
 
     private ArticleAdapter mAdapter;
     private ArrayList<ArticleBean.DataBean.DatasBean> mDataList = new ArrayList();
-    private int mPage = 1;
+    private int mPage = 0;
     private boolean mLoadMoreIng = false;
     private boolean mRefreshIng = false;
 
@@ -92,7 +92,7 @@ public class ArticleActivityImpl extends BaseActivity<ArticleActivity, ArticleAc
             public void onRefresh() {
                 if (!mLoadMoreIng && !mRefreshIng) {
                     mRefreshIng = true;
-                    mPage = 1;
+                    mPage = 0;
                     //下拉刷新的时候不让上拉加载
                     mAdapter.setEnableLoadMore(false);
                     getData(false);
@@ -131,8 +131,8 @@ public class ArticleActivityImpl extends BaseActivity<ArticleActivity, ArticleAc
     }
 
     @Override
-    public void setArticle(int pageCount, ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg) {
-        if (mPage == 1) {
+    public void setArticle(int curPage,int pageCount, ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg) {
+        if (mPage == 0) {
             mDataList.clear();
         }
         mDataList.addAll(articleList);
@@ -142,7 +142,7 @@ public class ArticleActivityImpl extends BaseActivity<ArticleActivity, ArticleAc
         mAdapter.setEnableLoadMore(true);
         mLoadMoreIng = false;
         mRefreshIng = false;
-        if (mPage >= pageCount) {
+        if (curPage >= pageCount) {
             mAdapter.loadMoreEnd();
         } else {
             mAdapter.loadMoreComplete();

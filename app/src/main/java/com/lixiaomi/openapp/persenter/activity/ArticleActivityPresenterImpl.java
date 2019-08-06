@@ -58,9 +58,9 @@ public class ArticleActivityPresenterImpl extends BasePresenter<ArticleActivity,
                         }
                     }
                     s = articleBean.getErrorMsg();
-                    mView.setArticle(articleBean.getData().getPageCount(), mArticleList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setArticle(articleBean.getData().getCurPage(), articleBean.getData().getPageCount(), mArticleList, HttpData.LOCAL_SUCCESS, s);
                 } catch (Exception e) {
-                    mView.setArticle(0, mArticleList, HttpData.LOCAL_DATA_ERROR, "数据异常");
+                    mView.setArticle(0,0, mArticleList, HttpData.LOCAL_DATA_ERROR, "数据异常");
                 }
             }
 

@@ -31,5 +31,5 @@ public interface SubscribeFragment extends BaseView {
      * @param code
      * @param msg
      */
-    void setArticleListData(int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg);
+    void setArticleListData(int curPage,int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg);
 }

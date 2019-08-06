@@ -57,9 +57,9 @@ public class ProjectActivityPresenterImpl extends BasePresenter<ProjectActivity,
                         }
                     }
                     s = projectBean.getErrorMsg();
-                    mView.setArticleProject(projectBean.getData().getPageCount(), mProjectList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setArticleProject(projectBean.getData().getCurPage(),projectBean.getData().getPageCount(), mProjectList, HttpData.LOCAL_SUCCESS, s);
                 } catch (Exception e) {
-                    mView.setArticleProject(0, mProjectList, HttpData.LOCAL_DATA_ERROR, "数据异常");
+                    mView.setArticleProject(0,0, mProjectList, HttpData.LOCAL_DATA_ERROR, "数据异常");
                 }
             }
 

@@ -13,5 +13,5 @@ import java.util.ArrayList;
  * @changeTime:<br>
  */
 public interface SystemListActivity extends BaseView {
-    void setSystemArticleList(int page, ArrayList<TreeArticleListBean.DataBean.DatasBean> list, int code, String msg);
+    void setSystemArticleList(int curPage,int page, ArrayList<TreeArticleListBean.DataBean.DatasBean> list, int code, String msg);
 }

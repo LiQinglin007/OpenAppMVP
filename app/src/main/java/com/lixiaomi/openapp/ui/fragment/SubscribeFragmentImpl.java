@@ -51,7 +51,7 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
     /**
      * 现在加载到了多少页
      */
-    private int mPage = 1;
+    private int mPage = 0;
     private boolean mRefreshIng = false;
     private boolean mLoadMoreIng = false;
 
@@ -108,7 +108,7 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
                             @Override
                             public void onListCallback(ArrayList<Integer> dataList) {
                                 mChooseIndex = dataList.get(0);
-                                mPage = 1;
+                                mPage = 0;
                                 mSubAuthorTv.setText(mAuthorListData.get(mChooseIndex).getName());
                                 getData(true);
                             }
@@ -148,7 +148,7 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
             @Override
             public void onRefresh() {
                 if (!mLoadMoreIng || !mRefreshIng) {
-                    mPage = 1;
+                    mPage = 0;
                     mRefreshIng = true;
                     mSubscribeFragmentAdapter.setEnableLoadMore(false);
                     getData(false);
@@ -174,13 +174,13 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
     }
 
     @Override
-    public void setArticleListData(int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg) {
-        if (mPage == 1) {
+    public void setArticleListData(int curPage, int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg) {
+        if (mPage == 0) {
             mArticleListData.clear();
         }
         mArticleListData.addAll(articleListData);
         mSubscribeFragmentAdapter.replaceData(mArticleListData);
-        if (mPage >= pageCount) {
+        if (curPage >= pageCount) {
             mSubscribeFragmentAdapter.loadMoreEnd();
         } else {
             mSubscribeFragmentAdapter.loadMoreComplete();

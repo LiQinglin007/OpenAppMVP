@@ -22,6 +22,6 @@ public interface ProjectActivity extends BaseView {
      * @param code
      * @param msg
      */
-    void setArticleProject(int pageCount, ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg);
+    void setArticleProject(int curPage,int pageCount, ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg);
 
 }
