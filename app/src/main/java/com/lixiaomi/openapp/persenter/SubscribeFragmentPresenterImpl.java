@@ -2,14 +2,12 @@ package com.lixiaomi.openapp.persenter;
 
 import com.lixiaomi.baselib.config.AppConfigInIt;
 import com.lixiaomi.baselib.utils.MiJsonUtil;
-import com.lixiaomi.baselib.utils.NetWorkUtils;
 import com.lixiaomi.mvplib.base.BaseModel;
 import com.lixiaomi.mvplib.base.BasePresenter;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.bean.WXArticleAuthorlistBean;
 import com.lixiaomi.openapp.bean.WXArticleListBean;
-import com.lixiaomi.openapp.http.HttpData;
 import com.lixiaomi.openapp.model.WXArticleModelImpl;
 import com.lixiaomi.openapp.ui.fragment.SubscribeFragment;
 
@@ -34,16 +32,11 @@ public class SubscribeFragmentPresenterImpl extends BasePresenter<SubscribeFragm
         if (isViewAttached()) {
             mView.startLoading();
         }
-
-        ((WXArticleModelImpl) getModelList().get(0)).getWXArticleAuthorList(new MyPresenterCallBack() {
+        ((WXArticleModelImpl) getModelList().get(0)).getWXArticleAuthorList(new MiPersenterCallBack(mView) {
             @Override
-            public void success(int code, String response) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                }
-                mAuthorList.clear();
-                String s = "加载失败";
+            public void success(String response) {
                 try {
+                    mAuthorList.clear();
                     WXArticleAuthorlistBean articleAuthorlistBean = MiJsonUtil.getClass(response, WXArticleAuthorlistBean.class);
                     if (articleAuthorlistBean.getErrorCode() == 0) {
                         List<WXArticleAuthorlistBean.DataBean> data = articleAuthorlistBean.getData();
@@ -51,30 +44,12 @@ public class SubscribeFragmentPresenterImpl extends BasePresenter<SubscribeFragm
                             mAuthorList.addAll(data);
                         }
                     }
-                    s = articleAuthorlistBean.getErrorMsg();
+                    mView.setAuthorListData(mAuthorList);
                 } catch (Exception e) {
-                }
-                mView.setAuthorListData(mAuthorList, HttpData.LOCAL_SUCCESS, s);
-            }
-
-            @Override
-            public void error(String message) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(message);
-                }
-            }
-
-            @Override
-            public void failure(Throwable e) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(
-                            NetWorkUtils.isNetworkConnected(AppConfigInIt.getApplicationContext()) ? R.string.http_onFailure : R.string.http_NoNetWorkError));
+                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_AnalysisError));
                 }
             }
         });
-
     }
 
     @Override
@@ -85,15 +60,11 @@ public class SubscribeFragmentPresenterImpl extends BasePresenter<SubscribeFragm
                 mView.startLoading();
             }
         }
-        ((WXArticleModelImpl) getModelList().get(0)).getWXArticleListByAuthorId(authorId, page, new MyPresenterCallBack() {
+        ((WXArticleModelImpl) getModelList().get(0)).getWXArticleListByAuthorId(authorId, page, new MiPersenterCallBack(mView) {
             @Override
-            public void success(int code, String response) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                }
-                mArticleList.clear();
-                String s = "加载失败";
+            public void success(String response) {
                 try {
+                    mArticleList.clear();
                     WXArticleListBean articleListBean = MiJsonUtil.getClass(response, WXArticleListBean.class);
                     if (articleListBean.getErrorCode() == 0) {
                         List<WXArticleListBean.DataBean.DatasBean> data = articleListBean.getData().getDatas();
@@ -101,27 +72,9 @@ public class SubscribeFragmentPresenterImpl extends BasePresenter<SubscribeFragm
                             mArticleList.addAll(data);
                         }
                     }
-                    s = articleListBean.getErrorMsg();
-                    mView.setArticleListData(articleListBean.getData().getCurPage(),articleListBean.getData().getPageCount(), mArticleList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setArticleListData(articleListBean.getData().getCurPage(), articleListBean.getData().getPageCount(), mArticleList);
                 } catch (Exception e) {
-                }
-
-            }
-
-            @Override
-            public void error(String message) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(message);
-                }
-            }
-
-            @Override
-            public void failure(Throwable e) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(
-                            NetWorkUtils.isNetworkConnected(AppConfigInIt.getApplicationContext()) ? R.string.http_onFailure : R.string.http_NoNetWorkError));
+                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_AnalysisError));
                 }
             }
         });

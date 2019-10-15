@@ -22,7 +22,7 @@ public interface SubscribeFragment extends BaseView {
      * @param code
      * @param msg
      */
-    void setAuthorListData(ArrayList<WXArticleAuthorlistBean.DataBean> authorListData, int code, String msg);
+    void setAuthorListData(ArrayList<WXArticleAuthorlistBean.DataBean> authorListData);
 
     /**
      * 某个公众号下的文章列表
@@ -31,5 +31,5 @@ public interface SubscribeFragment extends BaseView {
      * @param code
      * @param msg
      */
-    void setArticleListData(int curPage,int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg);
+    void setArticleListData(int curPage,int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData);
 }

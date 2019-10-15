@@ -1,12 +1,11 @@
 package com.lixiaomi.openapp.model;
 
-import com.lixiaomi.baselib.config.AppConfigInIt;
-import com.lixiaomi.baselib.net.okhttp.MiOkHttpCallBack;
 import com.lixiaomi.baselib.net.okhttp.MiSendRequestOkHttp;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
-import com.lixiaomi.openapp.R;
-import com.lixiaomi.openapp.http.HttpData;
+import com.lixiaomi.mvplib.base.MiHttpCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
 import com.lixiaomi.openapp.http.MyUrl;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.WeakHashMap;
 
@@ -20,49 +19,23 @@ import java.util.WeakHashMap;
 public class TreeModelmpl implements TreeModel {
 
     @Override
-    public void getTreeTypeList(final MyPresenterCallBack myPresenterCallBack) {
-        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getTreeGet(), 120, new MiOkHttpCallBack() {
+    public void getTreeTypeList(final MiPersenterCallBack myPresenterCallBack) {
+        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getTreeGet(), 120, new MiHttpCallBack(myPresenterCallBack) {
             @Override
-            public void onSuccess(int code, String response) {
-                if (code != HttpData.HTTP_SUCCESS_CODE) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                if (response.contains(HttpData.SERVER_ERROR_STR)) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                myPresenterCallBack.success(code, response);
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                myPresenterCallBack.failure(e);
+            public void onSuccess(@NotNull String s) {
+                myPresenterCallBack.success(s);
             }
         });
     }
 
     @Override
-    public void getTreeList(int page, String cId, final MyPresenterCallBack myPresenterCallBack) {
+    public void getTreeList(int page, String cId, final MiPersenterCallBack myPresenterCallBack) {
         WeakHashMap<String, Object> para = new WeakHashMap<>(1);
         para.put("cid", cId);
-        MiSendRequestOkHttp.sendGet(null, para, MyUrl.getTreeListGet() + page + "/json", 120, new MiOkHttpCallBack() {
+        MiSendRequestOkHttp.sendGet(null, para, MyUrl.getTreeListGet() + page + "/json", 120, new MiHttpCallBack(myPresenterCallBack) {
             @Override
-            public void onSuccess(int code, String response) {
-                if (code != HttpData.HTTP_SUCCESS_CODE) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                if (response.contains(HttpData.SERVER_ERROR_STR)) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                myPresenterCallBack.success(code, response);
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                myPresenterCallBack.failure(e);
+            public void onSuccess(@NotNull String s) {
+                myPresenterCallBack.success(s);
             }
         });
     }

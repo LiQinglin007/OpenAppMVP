@@ -2,15 +2,12 @@ package com.lixiaomi.openapp.persenter;
 
 import com.lixiaomi.baselib.config.AppConfigInIt;
 import com.lixiaomi.baselib.utils.MiJsonUtil;
-import com.lixiaomi.baselib.utils.NetWorkUtils;
 import com.lixiaomi.mvplib.base.BaseModel;
 import com.lixiaomi.mvplib.base.BasePresenter;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.bean.MyTreeBean;
 import com.lixiaomi.openapp.bean.TreeBean;
-import com.lixiaomi.openapp.bean.WXArticleListBean;
-import com.lixiaomi.openapp.http.HttpData;
 import com.lixiaomi.openapp.model.TreeModelmpl;
 import com.lixiaomi.openapp.ui.fragment.SystemFragment;
 
@@ -41,15 +38,11 @@ public class SystemFragmentPresenterImpl extends BasePresenter<SystemFragment, B
         if (isViewAttached()) {
             mView.startLoading();
         }
-        ((TreeModelmpl) getModelList().get(0)).getTreeTypeList(new MyPresenterCallBack() {
+        ((TreeModelmpl) getModelList().get(0)).getTreeTypeList(new MiPersenterCallBack(mView) {
             @Override
-            public void success(int code, String response) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                }
-                mTreeList.clear();
-                String s = "加载失败";
+            public void success(String response) {
                 try {
+                    mTreeList.clear();
                     TreeBean treeBean = MiJsonUtil.getClass(response, TreeBean.class);
                     if (treeBean.getErrorCode() == 0) {
                         List<TreeBean.DataBean> data = treeBean.getData();
@@ -90,27 +83,9 @@ public class SystemFragmentPresenterImpl extends BasePresenter<SystemFragment, B
                             mTreeList.addAll(myDataList);
                         }
                     }
-                    s = treeBean.getErrorMsg();
-                    mView.setTreeData(mTreeList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setTreeData(mTreeList);
                 } catch (Exception e) {
-                    mView.setTreeData(mTreeList, HttpData.LOCAL_DATA_ERROR, "数据异常");
-                }
-            }
-
-            @Override
-            public void error(String message) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(message);
-                }
-            }
-
-            @Override
-            public void failure(Throwable e) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(
-                            NetWorkUtils.isNetworkConnected(AppConfigInIt.getApplicationContext()) ? R.string.http_onFailure : R.string.http_NoNetWorkError));
+                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_AnalysisError));
                 }
             }
         });

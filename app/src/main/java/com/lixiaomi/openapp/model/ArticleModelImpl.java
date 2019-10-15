@@ -1,14 +1,13 @@
 package com.lixiaomi.openapp.model;
 
 
-import com.lixiaomi.baselib.config.AppConfigInIt;
-import com.lixiaomi.baselib.net.okhttp.MiOkHttpCallBack;
 import com.lixiaomi.baselib.net.okhttp.MiSendRequestOkHttp;
-import com.lixiaomi.baselib.utils.LogUtils;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
-import com.lixiaomi.openapp.R;
-import com.lixiaomi.openapp.http.HttpData;
+import com.lixiaomi.mvplib.base.MiHttpCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
+
 import com.lixiaomi.openapp.http.MyUrl;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @describe：<br>
@@ -20,49 +19,21 @@ import com.lixiaomi.openapp.http.MyUrl;
 public class ArticleModelImpl implements ArticleModel {
 
     @Override
-    public void getArtcleList(int page, final MyPresenterCallBack myPresenterCallBack) {
-        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleGet() + page + "/json", 120, new MiOkHttpCallBack() {
+    public void getArtcleList(int page, final MiPersenterCallBack myPresenterCallBack) {
+        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleGet() + page + "/json", 120, new MiHttpCallBack(myPresenterCallBack) {
             @Override
-            public void onSuccess(int code, String response) {
-                LogUtils.loge("code:" + code + "  response:" + response);
-                if (code != HttpData.HTTP_SUCCESS_CODE) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                if (response.contains(HttpData.SERVER_ERROR_STR)) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                myPresenterCallBack.success(code, response);
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                myPresenterCallBack.failure(e);
+            public void onSuccess(@NotNull String s) {
+                myPresenterCallBack.success(s);
             }
         });
     }
 
     @Override
-    public void getArtcleProjectList(int page, final MyPresenterCallBack myPresenterCallBack) {
-        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleProjectGet() + page + "/json", 120, new MiOkHttpCallBack() {
+    public void getArtcleProjectList(int page, final MiPersenterCallBack myPresenterCallBack) {
+        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleProjectGet() + page + "/json", 120, new MiHttpCallBack(myPresenterCallBack) {
             @Override
-            public void onSuccess(int code, String response) {
-                LogUtils.loge("code:" + code + "  response:" + response);
-                if (code != HttpData.HTTP_SUCCESS_CODE) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                if (response.contains(HttpData.SERVER_ERROR_STR)) {
-                    myPresenterCallBack.error(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_ServiceError));
-                    return;
-                }
-                myPresenterCallBack.success(code, response);
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                myPresenterCallBack.failure(e);
+            public void onSuccess(@NotNull String s) {
+                myPresenterCallBack.success(s);
             }
         });
     }

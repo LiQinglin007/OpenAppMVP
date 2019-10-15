@@ -23,7 +23,6 @@ import com.lixiaomi.openapp.adapter.ProjectAdapter;
 import com.lixiaomi.openapp.bean.ArticleBean;
 import com.lixiaomi.openapp.bean.BannerBean;
 import com.lixiaomi.openapp.bean.ProjectBean;
-import com.lixiaomi.openapp.http.HttpData;
 import com.lixiaomi.openapp.persenter.HomeFragmentPresenterImpl;
 import com.lixiaomi.openapp.ui.activity.ArticleActivityImpl;
 import com.lixiaomi.openapp.ui.activity.ProjectActivityImpl;
@@ -129,60 +128,48 @@ public class HomeFragmentImpl extends BaseFragment<HomeFragment, HomeFragmentPre
     }
 
     @Override
-    public void setBannerData(ArrayList<BannerBean.DataBean> bannerList, int code, String msg) {
+    public void setBannerData(ArrayList<BannerBean.DataBean> bannerList) {
         mDataList.clear();
-        if (code == HttpData.LOCAL_SUCCESS) {
-            mDataList.addAll(bannerList);
-            //给Banner设置图片
-            mHomeBanner.setPages(
-                    new CBViewHolderCreator() {
-                        @Override
-                        public Holder createHolder(View itemView) {
-                            return new BannerHolderView(itemView);
-                        }
+        mDataList.addAll(bannerList);
+        //给Banner设置图片
+        mHomeBanner.setPages(
+                new CBViewHolderCreator() {
+                    @Override
+                    public Holder createHolder(View itemView) {
+                        return new BannerHolderView(itemView);
+                    }
 
-                        @Override
-                        public int getLayoutId() {
-                            return R.layout.item_localimage;
-                        }
-                    }, mDataList)
-                    .setOnItemClickListener(new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            startActivity(new Intent(getActivity(), WebViewActivity.class)
-                                    .putExtra(FinalData.WEB_VIEW_URL, mDataList.get(position).getUrl())
-                                    .putExtra(FinalData.WEB_VIEW_TITLE, mDataList.get(position).getTitle())
-                            );
-                        }
-                    })
-                    .setPageIndicator(new int[]{R.drawable.dot_focus, R.drawable.dot_normal})
-                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
-        } else {
-            T.shortToast(getActivity(), msg);
-        }
+                    @Override
+                    public int getLayoutId() {
+                        return R.layout.item_localimage;
+                    }
+                }, mDataList)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        startActivity(new Intent(getActivity(), WebViewActivity.class)
+                                .putExtra(FinalData.WEB_VIEW_URL, mDataList.get(position).getUrl())
+                                .putExtra(FinalData.WEB_VIEW_TITLE, mDataList.get(position).getTitle())
+                        );
+                    }
+                })
+                .setPageIndicator(new int[]{R.drawable.dot_focus, R.drawable.dot_normal})
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
     }
 
     @Override
-    public void setArticleProject(ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg) {
+    public void setArticleProject(ArrayList<ProjectBean.DataBean.DatasBean> projectList) {
         mProjectDataList.clear();
-        if (code == HttpData.LOCAL_SUCCESS) {
-            mProjectDataList.addAll(projectList);
-            LogUtils.loge("mProjectDataList" + MiJsonUtil.getJson(mProjectDataList));
-        } else {
-            T.shortToast(getActivity(), msg);
-        }
+        mProjectDataList.addAll(projectList);
+        LogUtils.loge("mProjectDataList" + MiJsonUtil.getJson(mProjectDataList));
         mProjectAdapter.setNewData(mProjectDataList);
     }
 
     @Override
-    public void setArticle(ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg) {
+    public void setArticle(ArrayList<ArticleBean.DataBean.DatasBean> articleList) {
         mArticleDataList.clear();
-        if (code == HttpData.LOCAL_SUCCESS) {
-            mArticleDataList.addAll(articleList);
-            LogUtils.loge("mArticleDataList" + MiJsonUtil.getJson(mArticleDataList));
-        } else {
-            T.shortToast(getActivity(), msg);
-        }
+        mArticleDataList.addAll(articleList);
+        LogUtils.loge("mArticleDataList" + MiJsonUtil.getJson(mArticleDataList));
         mArticleAdapter.setNewData(mArticleDataList);
     }
 

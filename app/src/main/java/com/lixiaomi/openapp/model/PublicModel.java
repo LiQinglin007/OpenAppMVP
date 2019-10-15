@@ -1,7 +1,7 @@
 package com.lixiaomi.openapp.model;
 
 import com.lixiaomi.mvplib.base.BaseModel;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
 
 /**
  * @describe：公共模块<br>
@@ -14,6 +14,6 @@ public interface PublicModel  extends BaseModel {
     /**
      * 获取首页轮播图列表
      */
-    void getBannerList(MyPresenterCallBack myPresenterCallBack);
+    void getBannerList(MiPersenterCallBack myPresenterCallBack);
 
 }

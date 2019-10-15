@@ -129,7 +129,7 @@ public class ProjectActivityImpl extends BaseActivity<ProjectActivity, ProjectAc
     }
 
     @Override
-    public void setArticleProject(int curPage, int pageCount, ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg) {
+    public void setArticleProject(int curPage, int pageCount, ArrayList<ProjectBean.DataBean.DatasBean> projectList) {
         if (mPage == 0) {
             mDataList.clear();
         }
@@ -171,7 +171,7 @@ public class ProjectActivityImpl extends BaseActivity<ProjectActivity, ProjectAc
 
     @Override
     public void showToast(String msg) {
-        T.shortToast(this, msg);
+        showShortToast(msg);
     }
 
 

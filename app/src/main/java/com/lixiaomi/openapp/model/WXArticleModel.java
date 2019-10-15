@@ -1,7 +1,8 @@
 package com.lixiaomi.openapp.model;
 
 import com.lixiaomi.mvplib.base.BaseModel;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
+
 
 /**
  * @describe：<br>
@@ -17,7 +18,7 @@ public interface WXArticleModel extends BaseModel {
      *
      * @param myPresenterCallBack
      */
-    void getWXArticleAuthorList(MyPresenterCallBack myPresenterCallBack);
+    void getWXArticleAuthorList(MiPersenterCallBack myPresenterCallBack);
 
     /**
      * 获取某个公众号下的文章列表
@@ -26,6 +27,6 @@ public interface WXArticleModel extends BaseModel {
      * @param page                页面
      * @param myPresenterCallBack
      */
-    void getWXArticleListByAuthorId(String authorId, int page, MyPresenterCallBack myPresenterCallBack);
+    void getWXArticleListByAuthorId(String authorId, int page, MiPersenterCallBack myPresenterCallBack);
 
 }

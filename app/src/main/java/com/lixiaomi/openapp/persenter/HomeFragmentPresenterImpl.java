@@ -2,15 +2,13 @@ package com.lixiaomi.openapp.persenter;
 
 import com.lixiaomi.baselib.config.AppConfigInIt;
 import com.lixiaomi.baselib.utils.MiJsonUtil;
-import com.lixiaomi.baselib.utils.NetWorkUtils;
 import com.lixiaomi.mvplib.base.BaseModel;
 import com.lixiaomi.mvplib.base.BasePresenter;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.bean.ArticleBean;
 import com.lixiaomi.openapp.bean.BannerBean;
 import com.lixiaomi.openapp.bean.ProjectBean;
-import com.lixiaomi.openapp.http.HttpData;
 import com.lixiaomi.openapp.model.ArticleModelImpl;
 import com.lixiaomi.openapp.model.PublicModelImpl;
 import com.lixiaomi.openapp.ui.fragment.HomeFragment;
@@ -46,13 +44,11 @@ public class HomeFragmentPresenterImpl extends BasePresenter<HomeFragment, BaseM
         if (isViewAttached()) {
             mView.startLoading();
         }
-        ((PublicModelImpl) getModelList().get(0)).getBannerList(new MyPresenterCallBack() {
+        ((PublicModelImpl) getModelList().get(0)).getBannerList(new MiPersenterCallBack(mView) {
             @Override
-            public void success(int code, String response) {
-                mView.stopLoading();
-                mBannerList.clear();
-                String s = "加载失败";
+            public void success(String response) {
                 try {
+                    mBannerList.clear();
                     BannerBean roomListBean = MiJsonUtil.getClass(response, BannerBean.class);
                     if (roomListBean.getErrorCode() == 0) {
                         List<BannerBean.DataBean> data = roomListBean.getData();
@@ -60,26 +56,9 @@ public class HomeFragmentPresenterImpl extends BasePresenter<HomeFragment, BaseM
                             mBannerList.addAll(data);
                         }
                     }
-                    s = roomListBean.getErrorMsg();
+                    mView.setBannerData(mBannerList);
                 } catch (Exception e) {
-                }
-                mView.setBannerData(mBannerList, HttpData.LOCAL_SUCCESS, s);
-            }
-
-            @Override
-            public void error(String message) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(message);
-                }
-            }
-
-            @Override
-            public void failure(Throwable e) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(
-                            NetWorkUtils.isNetworkConnected(AppConfigInIt.getApplicationContext()) ? R.string.http_onFailure : R.string.http_NoNetWorkError));
+                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_AnalysisError));
                 }
             }
         });
@@ -91,13 +70,11 @@ public class HomeFragmentPresenterImpl extends BasePresenter<HomeFragment, BaseM
         if (isViewAttached()) {
             mView.startLoading();
         }
-        ((ArticleModelImpl) getModelList().get(1)).getArtcleList(0, new MyPresenterCallBack() {
+        ((ArticleModelImpl) getModelList().get(1)).getArtcleList(0, new MiPersenterCallBack(mView) {
             @Override
-            public void success(int code, String response) {
-                mView.stopLoading();
-                mArticleList.clear();
-                String s = "加载失败";
+            public void success(String response) {
                 try {
+                    mArticleList.clear();
                     ArticleBean articleBean = MiJsonUtil.getClass(response, ArticleBean.class);
                     if (articleBean.getErrorCode() == 0) {
                         List<ArticleBean.DataBean.DatasBean> data = articleBean.getData().getDatas();
@@ -113,26 +90,9 @@ public class HomeFragmentPresenterImpl extends BasePresenter<HomeFragment, BaseM
                             }
                         }
                     }
-                    s = articleBean.getErrorMsg();
+                    mView.setArticle(mArticleList);
                 } catch (Exception e) {
-                }
-                mView.setArticle(mArticleList, HttpData.LOCAL_SUCCESS, s);
-            }
-
-            @Override
-            public void error(String message) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(message);
-                }
-            }
-
-            @Override
-            public void failure(Throwable e) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(
-                            NetWorkUtils.isNetworkConnected(AppConfigInIt.getApplicationContext()) ? R.string.http_onFailure : R.string.http_NoNetWorkError));
+                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_AnalysisError));
                 }
             }
         });
@@ -144,13 +104,11 @@ public class HomeFragmentPresenterImpl extends BasePresenter<HomeFragment, BaseM
         if (isViewAttached()) {
             mView.startLoading();
         }
-        ((ArticleModelImpl) getModelList().get(1)).getArtcleProjectList(0, new MyPresenterCallBack() {
+        ((ArticleModelImpl) getModelList().get(1)).getArtcleProjectList(0, new MiPersenterCallBack(mView) {
             @Override
-            public void success(int code, String response) {
-                mView.stopLoading();
-                mProjectList.clear();
-                String s = "加载失败";
+            public void success(String response) {
                 try {
+                    mProjectList.clear();
                     ProjectBean projectBean = MiJsonUtil.getClass(response, ProjectBean.class);
                     if (projectBean.getErrorCode() == 0) {
                         List<ProjectBean.DataBean.DatasBean> data = projectBean.getData().getDatas();
@@ -166,26 +124,9 @@ public class HomeFragmentPresenterImpl extends BasePresenter<HomeFragment, BaseM
                             }
                         }
                     }
-                    s = projectBean.getErrorMsg();
+                    mView.setArticleProject(mProjectList);
                 } catch (Exception e) {
-                }
-                mView.setArticleProject(mProjectList, HttpData.LOCAL_SUCCESS, s);
-            }
-
-            @Override
-            public void error(String message) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(message);
-                }
-            }
-
-            @Override
-            public void failure(Throwable e) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(
-                            NetWorkUtils.isNetworkConnected(AppConfigInIt.getApplicationContext()) ? R.string.http_onFailure : R.string.http_NoNetWorkError));
+                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_AnalysisError));
                 }
             }
         });

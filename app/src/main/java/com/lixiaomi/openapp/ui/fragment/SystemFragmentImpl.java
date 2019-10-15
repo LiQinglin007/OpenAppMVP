@@ -90,7 +90,7 @@ public class SystemFragmentImpl extends BaseFragment<SystemFragment, SystemFragm
 
 
     @Override
-    public void setTreeData(ArrayList<MyTreeBean> treeList, int code, String msg) {
+    public void setTreeData(ArrayList<MyTreeBean> treeList) {
         mListData.clear();
         mListData.addAll(treeList);
         mSystemFragmentAdapter.replaceData(mListData);

@@ -137,7 +137,7 @@ public class SystemListActivityImpl extends BaseActivity<SystemListActivity, Sys
     }
 
     @Override
-    public void setSystemArticleList(int curPage,int page, ArrayList<TreeArticleListBean.DataBean.DatasBean> list, int code, String msg) {
+    public void setSystemArticleList(int curPage,int page, ArrayList<TreeArticleListBean.DataBean.DatasBean> list) {
         if (mPage == 0) {
             mDataList.clear();
         }
@@ -177,7 +177,7 @@ public class SystemListActivityImpl extends BaseActivity<SystemListActivity, Sys
 
     @Override
     public void showToast(String msg) {
-        T.shortToast(SystemListActivityImpl.this, msg);
+        showShortToast(msg);
     }
 
 

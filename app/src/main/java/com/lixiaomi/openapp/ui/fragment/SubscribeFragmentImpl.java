@@ -164,7 +164,7 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
     }
 
     @Override
-    public void setAuthorListData(ArrayList<WXArticleAuthorlistBean.DataBean> authorListData, int code, String msg) {
+    public void setAuthorListData(ArrayList<WXArticleAuthorlistBean.DataBean> authorListData) {
         mAuthorListData.clear();
         mAuthorListData.addAll(authorListData);
         if (mAuthorListData.size() > 0) {
@@ -174,7 +174,7 @@ public class SubscribeFragmentImpl extends BaseFragment<SubscribeFragment, Subsc
     }
 
     @Override
-    public void setArticleListData(int curPage, int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData, int code, String msg) {
+    public void setArticleListData(int curPage, int pageCount, ArrayList<WXArticleListBean.DataBean.DatasBean> articleListData) {
         if (mPage == 0) {
             mArticleListData.clear();
         }

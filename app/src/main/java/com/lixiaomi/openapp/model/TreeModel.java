@@ -1,7 +1,8 @@
 package com.lixiaomi.openapp.model;
 
 import com.lixiaomi.mvplib.base.BaseModel;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
+
 
 /**
  * @describe：<br>
@@ -16,7 +17,7 @@ public interface TreeModel extends BaseModel {
      *
      * @param myPresenterCallBack
      */
-    void getTreeTypeList(MyPresenterCallBack myPresenterCallBack);
+    void getTreeTypeList(MiPersenterCallBack myPresenterCallBack);
 
     /**
      * 获取体系下的文章列表
@@ -24,6 +25,6 @@ public interface TreeModel extends BaseModel {
      * @param page 页码
      * @param cId  类型id
      */
-    void getTreeList(int page, String cId, MyPresenterCallBack myPresenterCallBack);
+    void getTreeList(int page, String cId, MiPersenterCallBack myPresenterCallBack);
 
 }

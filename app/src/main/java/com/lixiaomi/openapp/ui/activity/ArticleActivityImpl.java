@@ -131,7 +131,7 @@ public class ArticleActivityImpl extends BaseActivity<ArticleActivity, ArticleAc
     }
 
     @Override
-    public void setArticle(int curPage,int pageCount, ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg) {
+    public void setArticle(int curPage,int pageCount, ArrayList<ArticleBean.DataBean.DatasBean> articleList) {
         if (mPage == 0) {
             mDataList.clear();
         }
@@ -172,8 +172,6 @@ public class ArticleActivityImpl extends BaseActivity<ArticleActivity, ArticleAc
 
     @Override
     public void showToast(String msg) {
-        T.shortToast(this, msg);
+        showShortToast(msg);
     }
-
-
 }

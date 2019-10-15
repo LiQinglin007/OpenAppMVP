@@ -21,24 +21,18 @@ public interface HomeFragment extends BaseView {
      * 设置Banner
      *
      * @param mBannerList
-     * @param code
-     * @param msg
      */
-    void setBannerData(ArrayList<BannerBean.DataBean> mBannerList, int code, String msg);
+    void setBannerData(ArrayList<BannerBean.DataBean> mBannerList);
 
     /**
      * 设置最新项目列表
      *
      * @param projectList
-     * @param code
-     * @param msg
      */
-    void setArticleProject(ArrayList<ProjectBean.DataBean.DatasBean> projectList, int code, String msg);
+    void setArticleProject(ArrayList<ProjectBean.DataBean.DatasBean> projectList);
 
     /**
      * @param articleList
-     * @param code
-     * @param msg
      */
-    void setArticle(ArrayList<ArticleBean.DataBean.DatasBean> articleList, int code, String msg);
+    void setArticle(ArrayList<ArticleBean.DataBean.DatasBean> articleList);
 }

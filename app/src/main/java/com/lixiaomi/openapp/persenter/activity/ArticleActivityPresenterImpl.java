@@ -2,14 +2,11 @@ package com.lixiaomi.openapp.persenter.activity;
 
 import com.lixiaomi.baselib.config.AppConfigInIt;
 import com.lixiaomi.baselib.utils.MiJsonUtil;
-import com.lixiaomi.baselib.utils.NetWorkUtils;
 import com.lixiaomi.mvplib.base.BaseModel;
 import com.lixiaomi.mvplib.base.BasePresenter;
-import com.lixiaomi.mvplib.base.MyPresenterCallBack;
+import com.lixiaomi.mvplib.base.MiPersenterCallBack;
 import com.lixiaomi.openapp.R;
 import com.lixiaomi.openapp.bean.ArticleBean;
-import com.lixiaomi.openapp.bean.TreeArticleListBean;
-import com.lixiaomi.openapp.http.HttpData;
 import com.lixiaomi.openapp.model.ArticleModelImpl;
 import com.lixiaomi.openapp.ui.activity.ArticleActivity;
 
@@ -26,6 +23,7 @@ import java.util.List;
 public class ArticleActivityPresenterImpl extends BasePresenter<ArticleActivity, BaseModel> implements ArticleActivityPresenter {
     private ArticleActivity mView;
     private ArrayList<ArticleBean.DataBean.DatasBean> mArticleList = new ArrayList<>();
+
     @Override
     protected ArrayList createModelList() {
         ArrayList<BaseModel> models = new ArrayList<>();
@@ -41,15 +39,11 @@ public class ArticleActivityPresenterImpl extends BasePresenter<ArticleActivity,
                 mView.startLoading();
             }
         }
-        ((ArticleModelImpl) getModelList().get(0)).getArtcleList(page, new MyPresenterCallBack() {
+        ((ArticleModelImpl) getModelList().get(0)).getArtcleList(page, new MiPersenterCallBack(mView) {
             @Override
-            public void success(int code, String response) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                }
-                mArticleList.clear();
-                String s = "加载失败";
+            public void success(String response) {
                 try {
+                    mArticleList.clear();
                     ArticleBean articleBean = MiJsonUtil.getClass(response, ArticleBean.class);
                     if (articleBean.getErrorCode() == 0) {
                         List<ArticleBean.DataBean.DatasBean> data = articleBean.getData().getDatas();
@@ -57,27 +51,9 @@ public class ArticleActivityPresenterImpl extends BasePresenter<ArticleActivity,
                             mArticleList.addAll(data);
                         }
                     }
-                    s = articleBean.getErrorMsg();
-                    mView.setArticle(articleBean.getData().getCurPage(), articleBean.getData().getPageCount(), mArticleList, HttpData.LOCAL_SUCCESS, s);
+                    mView.setArticle(articleBean.getData().getCurPage(), articleBean.getData().getPageCount(), mArticleList);
                 } catch (Exception e) {
-                    mView.setArticle(0,0, mArticleList, HttpData.LOCAL_DATA_ERROR, "数据异常");
-                }
-            }
-
-            @Override
-            public void error(String message) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(message);
-                }
-            }
-
-            @Override
-            public void failure(Throwable e) {
-                if (isViewAttached()) {
-                    mView.stopLoading();
-                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(
-                            NetWorkUtils.isNetworkConnected(AppConfigInIt.getApplicationContext()) ? R.string.http_onFailure : R.string.http_NoNetWorkError));
+                    mView.showToast(AppConfigInIt.getApplicationContext().getResources().getString(R.string.http_AnalysisError));
                 }
             }
         });

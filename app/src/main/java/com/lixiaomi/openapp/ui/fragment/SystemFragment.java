@@ -14,6 +14,6 @@ import java.util.ArrayList;
  */
 public interface SystemFragment extends BaseView {
 
-    void setTreeData(ArrayList<MyTreeBean> treeList, int code, String msg);
+    void setTreeData(ArrayList<MyTreeBean> treeList);
 
 }
