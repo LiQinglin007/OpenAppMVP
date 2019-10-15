@@ -3,9 +3,7 @@
 API使用[玩Android开放API](https://www.wanandroid.com/),使用[BaseMvp](https://github.com/LiQinglin007/MVPBaseLibApplication)作为基础库
 
 ### 部分UI
- <img src="https://github.com/LiQinglin007/OpenAppMVP/blob/master/img/open_app_img1.png" width="285"/>  <img src="https://github.com/LiQinglin007/OpenAppMVP/blob/master/img/open_app_img2.png" width="285"/>  <img src="https://github.com/LiQinglin007/OpenAppMVP/blob/master/img/open_app_img2.png" width="285"/> 
- 
- 
+ <img src="/img/open_app_img1.png" width="285"/>  <img src="/img/open_app_img2.png" width="285"/>  <img src="/img/open_app_img2.png" width="285"/> 
  
 ### apk下载
 
