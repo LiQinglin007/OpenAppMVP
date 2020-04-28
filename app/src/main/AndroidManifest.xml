@@ -30,7 +30,7 @@
         </provider>
 
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

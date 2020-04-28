@@ -20,7 +20,7 @@ public class ArticleModelImpl implements ArticleModel {
 
     @Override
     public void getArtcleList(int page, final MiPersenterCallBack myPresenterCallBack) {
-        MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleGet() + page + "/json", 120, new MiHttpCallBack(myPresenterCallBack) {
+            MiSendRequestOkHttp.sendGet(null, null, MyUrl.getArticleGet() + page + "/json", 120, new MiHttpCallBack(myPresenterCallBack) {
             @Override
             public void onSuccess(@NotNull String s) {
                 myPresenterCallBack.success(s);
